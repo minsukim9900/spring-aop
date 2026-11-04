@@ -3,6 +3,7 @@ package hello.aop;
 import hello.aop.order.*;
 import hello.aop.order.aop.AspectV3;
 import hello.aop.order.aop.AspectV4PointCut;
+import hello.aop.order.aop.AspectV5Order;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,8 @@ import org.springframework.context.annotation.Import;
 //@Import(AspectV1.class)
 //@Import(AspectV2.class)
 //@Import(AspectV3.class)
-@Import(AspectV4PointCut.class)
+//@Import(AspectV4PointCut.class)
+@Import({AspectV5Order.LogAspect.class, AspectV5Order.TxAspect.class})
 public class AopTest {
 
     @Autowired
