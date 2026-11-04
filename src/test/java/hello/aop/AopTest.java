@@ -1,6 +1,7 @@
 package hello.aop;
 
 import hello.aop.order.AspectV1;
+import hello.aop.order.AspectV2;
 import hello.aop.order.OrderRepository;
 import hello.aop.order.OrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,8 @@ import org.springframework.context.annotation.Import;
 
 @Slf4j
 @SpringBootTest
-@Import(AspectV1.class)
+//@Import(AspectV1.class)
+@Import(AspectV2.class)
 public class AopTest {
 
     @Autowired
