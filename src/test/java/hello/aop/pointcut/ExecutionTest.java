@@ -118,4 +118,75 @@ public class ExecutionTest {
 
         Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
     }
+
+    @Test
+    @DisplayName("typeExactMatch")
+    void typeExactMatch() throws Exception {
+        pointcut.setExpression("execution(* hello.aop.member.MemberServiceImpl.*(..))");
+
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    @DisplayName("typeMatchSuperType")
+    void typeMatchSuperType() throws Exception {
+        pointcut.setExpression("execution(* hello.aop.member.MemberService.*(..))");
+
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    @DisplayName("typeMatchInternal1")
+    void typeMatchInternal1() throws Exception {
+        pointcut.setExpression("execution(* hello.aop.member.MemberService.*(..))");
+
+        Method internalMethod = MemberServiceImpl.class.getMethod("internal", String.class);
+
+        Assertions.assertThat(pointcut.matches(internalMethod, MemberServiceImpl.class)).isFalse();
+    }
+
+    @Test
+    @DisplayName("typeMatchInternal2")
+    void typeMatchInternal2() throws Exception {
+        pointcut.setExpression("execution(* hello.aop.member.MemberServiceImpl.*(..))");
+
+        Method internalMethod = MemberServiceImpl.class.getMethod("internal", String.class);
+
+        Assertions.assertThat(pointcut.matches(internalMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    @DisplayName("argsMatch")
+    void argsMatch() throws Exception {
+        pointcut.setExpression("execution(* *(String))");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    @DisplayName("argsMatchNoArgs")
+    void argsMatchNoArgs() throws Exception {
+        pointcut.setExpression("execution(* *())");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isFalse();
+    }
+
+    @Test
+    @DisplayName("argsMatchStar")
+    void argsMatchStar() throws Exception {
+        pointcut.setExpression("execution(* *(*))");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    @DisplayName("argsMatchAll")
+    void argsMatchAll() throws Exception {
+        pointcut.setExpression("execution(* *(..))");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    @DisplayName("argsMatchComplex")
+    void argsMatchComplex() throws Exception {
+        pointcut.setExpression("execution(* *(String, ..))");
+        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
 }
